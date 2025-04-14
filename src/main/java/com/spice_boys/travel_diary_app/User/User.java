@@ -1,7 +1,11 @@
 package com.spice_boys.travel_diary_app.User;
 
+import com.spice_boys.travel_diary_app.Favourite.Favourite;
+import com.spice_boys.travel_diary_app.Itinerary.Itinerary;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -29,9 +33,9 @@ public class User {
 
 //    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Itinerary> itineraries;
-//
-//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Favourite> favourites;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favourite> favourites;
 
     public String getEmail() {
         return email;
@@ -80,14 +84,14 @@ public class User {
 //    public void setItineraries(List<Itinerary> itineraries) {
 //        this.itineraries = itineraries;
 //    }
-//
-//    public List<Favourite> getFavourites() {
-//        return favourites;
-//    }
-//
-//    public void setFavourites(List<Favourite> favourites) {
-//        this.favourites = favourites;
-//    }
+
+    public List<Favourite> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<Favourite> favourites) {
+        this.favourites = favourites;
+    }
 
     public User() {}
 

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -20,7 +21,6 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
-    /* EXAMPLES
     @PostMapping("/api/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userService.createUser(user);
@@ -35,5 +35,18 @@ public class UserController {
         List<User> savedUsers = userService.getUsersByQueries(firstName, lastName);
         return new ResponseEntity<>(savedUsers, HttpStatus.OK);
     }
-    */
+
+    @PatchMapping("/api/users/{username}")
+    public ResponseEntity<User> updateUser(@RequestBody User newUser, @PathVariable("username") String username) {
+        Optional<User> updatedUser = userService.updateUserByUsername(newUser, username);
+        return updatedUser
+                .map(user-> new ResponseEntity<>(user, HttpStatus.ACCEPTED))
+                .orElseGet(()-> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("/api/users/{username}")
+    public ResponseEntity<User> deleteUser(@PathVariable("username") String username){
+        userService.deleteUserByUsername(username);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
