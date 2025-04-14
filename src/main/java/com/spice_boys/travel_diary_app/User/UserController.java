@@ -1,5 +1,7 @@
 package com.spice_boys.travel_diary_app.User;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +19,15 @@ public class UserController {
 
     // Post user request
     @PostMapping("/api/users")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User savedUser = userService.createUser(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     // Get user request
     @GetMapping("/api/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> savedUsers = userService.getAllUsers();
+        return new ResponseEntity<>(savedUsers, HttpStatus.OK);
     }
 }
